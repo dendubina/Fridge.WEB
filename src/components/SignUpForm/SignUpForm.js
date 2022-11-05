@@ -1,9 +1,14 @@
 import "./SignUpForm.css";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import SignUp from "../../services/Http/SignUp";
+import { useState } from "react";
+import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpForm() {
-
+  const [serverErrors, setServerError] = useState([]);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -11,7 +16,15 @@ export default function SignUpForm() {
     getValues,
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    SignUp(data).then((response) => {
+      if (response.status === 400) {
+        setServerError(GetServerErrors(response.errors));
+      } else {
+        navigate("/");
+      }
+    });
+  };
 
   return (
     <div className="text-center">
@@ -20,13 +33,22 @@ export default function SignUpForm() {
         onSubmit={handleSubmit(onSubmit)}
         noValidate>
         <h1 className="h3 mb-3 font-weight-normal">Please Sign Up</h1>
-
         <img
           className="mb-4"
           src="https://s3-assets.quenchessentials.com/media/images/products/frigidaire-fftr1821ts-18-cu-ft-top-freezer-refrigerator-stainless-steel-main.png"
           alt=""
           width="72"
           height="72"></img>
+        <br />
+
+        {serverErrors &&
+          serverErrors.length > 0 &&
+          serverErrors.map((item, index) => (
+            <span className="error-message" key={index}>
+              {item}
+              <br />
+            </span>
+          ))}
 
         <Form.Control
           type="text"
@@ -63,7 +85,7 @@ export default function SignUpForm() {
           className={errors.passwordConfirm ? "is-invalid" : ""}
           placeholder="Password confirm"
           {...register("passwordConfirm", {
-            required: true,            
+            required: true,
             validate: {
               matchesPreviousPassword: (value) => {
                 const { password } = getValues();

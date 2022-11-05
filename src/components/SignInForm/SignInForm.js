@@ -1,16 +1,29 @@
 import "./SignInForm.css";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
+import SignIn from "../../services/Http/SignIn";
 
 export default function SignInForm() {
-
+  const [serverErrors, setServerError] = useState([]);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    SignIn(data).then((response) => {
+      if (response.status === 400) {
+        setServerError(GetServerErrors(response.errors));
+      } else {
+        navigate("/");
+      }
+    });
+  };
 
   return (
     <div className="text-center">
@@ -18,7 +31,6 @@ export default function SignInForm() {
         className="form-signin"
         onSubmit={handleSubmit(onSubmit)}
         noValidate>
-        
         <h1 className="h3 mb-3 font-weight-normal">Please Sign In</h1>
 
         <img
@@ -27,20 +39,30 @@ export default function SignInForm() {
           alt=""
           width="72"
           height="72"></img>
+        <br />
+
+        {serverErrors &&
+          serverErrors.length > 0 &&
+          serverErrors.map((item, index) => (
+            <span className="error-message" key={index}>
+              {item}
+              <br />
+            </span>
+          ))}
 
         <Form.Control
           type="text"
           className={errors.userName ? "is-invalid" : ""}
           placeholder="User name"
           {...register("userName", { required: true })}
-        />        
+        />
 
         <Form.Control
           type="password"
           className={errors.password ? "is-invalid" : ""}
           placeholder="Password"
           {...register("password", { required: true })}
-        />       
+        />
 
         <Button type="submit" variant="primary" size="lg">
           Sign In
