@@ -1,10 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
-import SignIn from "./pages/SIgnIn/SignIn";
+import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
+import useAuth from "./features/Hooks/useAuth"
 
 const Router = () => {
-  return (
+
+  const auth = useAuth();
+
+  return auth.isLoaded ? (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -12,6 +16,8 @@ const Router = () => {
         <Route path="/SignUp" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
+  ) : (
+    <div>some loader will be here</div>
   );
 };
 
