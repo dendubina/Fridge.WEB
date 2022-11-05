@@ -10,7 +10,14 @@ export default function HomePage() {
     <>
       <Header />
       <div>This is Home PAge</div>
-      <div>Is authed: {auth.isAuthed.toString()}</div>
+      <div>
+        Is authed: {auth.isAuthed.toString()} <br />
+        {auth.userData ? (
+          <div>{auth.userData.jwtToken}</div>
+        ) : (
+          <div></div>
+        )}       
+      </div>
     </>
   );
 }

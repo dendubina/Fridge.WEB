@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
 import SignIn from "../../services/Http/SignIn";
+import useAuth from "../../features/Hooks/useAuth";
 
 export default function SignInForm() {
   const [serverErrors, setServerError] = useState([]);
@@ -14,12 +15,15 @@ export default function SignInForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const auth = useAuth();
 
   const onSubmit = (data) => {
     SignIn(data).then((response) => {
       if (response.status === 400) {
         setServerError(GetServerErrors(response.errors));
       } else {
+        auth.logIn(response);
+        console.log(response);
         navigate("/");
       }
     });

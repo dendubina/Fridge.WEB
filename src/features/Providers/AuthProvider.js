@@ -30,7 +30,7 @@ function AuthProvider(props) {
     } else {
       setAuthed(true);
     }
-    
+
     setIsLoaded(true);
   }, []);
 
