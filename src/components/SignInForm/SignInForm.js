@@ -23,7 +23,6 @@ export default function SignInForm() {
         setServerError(GetServerErrors(response.errors));
       } else {
         auth.logIn(response);
-        console.log(response);
         navigate("/");
       }
     });

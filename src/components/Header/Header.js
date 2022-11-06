@@ -1,21 +1,19 @@
 import "./Header.css";
-import { Fragment } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../features/Hooks/useAuth";
 
 export default function Header() {
-
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const handleLogOutClick = () =>{
+  const handleLogOutClick = () => {
     auth.logOut();
     navigate("/");
-  }
+  };
 
   return (
-    <Fragment>
+    <>
       <Navbar
         className="custom-navbar"
         collapseOnSelect
@@ -31,17 +29,19 @@ export default function Header() {
             <Nav className="me-auto"></Nav>
             <Nav>
               {auth.isAuthed ? (
-                <button
+                <Button
+                  variant="outline-primary"
                   type="button"
-                  className="btn btn-outline-primary login-button"
+                  className="login-button"
                   onClick={handleLogOutClick}>
-                  Выход
-                </button>
+                  Logout
+                </Button>
               ) : (
                 <>
                   <Link to="/SignIn" className="nav-link">
                     Sign In
                   </Link>
+
                   <Link to="/SignUp" className="nav-link">
                     Sign Up
                   </Link>
@@ -51,6 +51,6 @@ export default function Header() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </Fragment>
+    </>
   );
 }

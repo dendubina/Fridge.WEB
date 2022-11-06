@@ -4,8 +4,7 @@ import ForbiddenAccessError from "../../features/Errors/Http/ForbiddenAccessErro
 import { getCookie } from "../CookieService/CookieService";
 
 const BaseHttpService = async (uri, fetchRequestOptions) => {
-
-const authToken = "Bearer " + getCookie("jwttoken");
+  const authToken = "Bearer " + getCookie("jwttoken");
 
   if (!fetchRequestOptions) {
     fetchRequestOptions = {
@@ -20,17 +19,18 @@ const authToken = "Bearer " + getCookie("jwttoken");
   } else if (fetchRequestOptions.headers) {
     fetchRequestOptions.headers["Authorization"] = authToken;
   }
-  
+
   const response = await fetch(uri, fetchRequestOptions);
 
-  if (response.status === 401) {
-    throw new UnathorizedAccessError();
-  }
-  if (response.status === 403) {
-    throw new ForbiddenAccessError();
-  }
-  if (response.status === 500) {
-    throw new BaseHttpError("Server error", response.status);
+  if (!response.ok) {
+    switch (response.status) {
+      case 401:
+        throw new UnathorizedAccessError();
+      case 403:
+        throw new ForbiddenAccessError();
+      default:
+        throw new BaseHttpError("Something went wrong", response.status);
+    }
   }
 
   const result = await response.json();
