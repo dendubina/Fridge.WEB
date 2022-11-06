@@ -21,18 +21,39 @@ export const SignUp = async (data) => {
   return await BaseHttpService(`${fridgeApi}/SignUp`, options);
 };
 
-export const GetAllFridges = async () =>
+export const getAllFridges = async () =>
   await BaseHttpService(`${fridgeApi}/api/fridges`);
 
-export const CreateFridge = async (data) => {
-  const requestOptions = {
+export const createFridge = async (data) => {
+  const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
 
-  return await BaseHttpService(`${fridgeApi}/api/Fridges`, requestOptions);
+  return await BaseHttpService(`${fridgeApi}/api/Fridges`, options);
 };
 
-export const GetAllProducts = async () =>
+export const getFridgeById = async (fridgeId) =>
+  await BaseHttpService(`${fridgeApi}/api/fridges/${fridgeId}`);
+
+export const deleteFridge = async (fridgeId) => {
+  const options = {
+    method: "DELETE",
+  };
+
+  await BaseHttpService(`${fridgeApi}/api/fridges/${fridgeId}`, options);
+};
+
+export const updateFridge = async (fridge) => {
+  const options = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fridge),
+  };
+
+  await BaseHttpService(`${fridgeApi}/api/fridges/${fridge.id}`, options);
+};
+
+export const getAllProducts = async () =>
   await BaseHttpService(`${fridgeApi}/api/products`);

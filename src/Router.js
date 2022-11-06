@@ -2,9 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
-import FridgesList from "./pages/FridgesList/FridgesList";
-import CreateFridge from "./pages/CreateFridge/CreateFridge";
+import FridgesList from "./pages/Fridges/FridgesList/FridgesList";
+import CreateFridge from "./pages/Fridges/CreateFridge/CreateFridge";
 import useAuth from "./features/Hooks/useAuth";
+import UpdateFridge from "./pages/Fridges/UpdateFridge/UpdateFridge";
 
 const Router = () => {
   const auth = useAuth();
@@ -17,6 +18,7 @@ const Router = () => {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Fridges" element={<FridgesList />} />
         <Route path="/Fridges/Create" element={<CreateFridge />} />
+        <Route path="/Fridges/Update/:fridgeId" element={<UpdateFridge />} /> 
       </Routes>
     </BrowserRouter>
   ) : (

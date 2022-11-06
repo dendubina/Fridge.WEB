@@ -4,8 +4,8 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
 import {
-  GetAllProducts,
-  CreateFridge,
+  getAllProducts,
+  createFridge,
 } from "../../services/Http/FridgeApi/FridgeApiService";
 import "./CreateFridgeForm.css";
 
@@ -45,7 +45,7 @@ export default function CreateFridgeForm() {
 
     console.log(formData);
 
-    CreateFridge(formData)
+    createFridge(formData)
     .then((response) => {
       if (response.status === 400) {
         setServerError(GetServerErrors(response.errors));
@@ -59,7 +59,7 @@ export default function CreateFridgeForm() {
   };
 
   useEffect(() => {
-    GetAllProducts().then((response) => {
+    getAllProducts().then((response) => {
       response.forEach((product) => {
         product.add = false;
         append(product, { shouldFocus: false });
