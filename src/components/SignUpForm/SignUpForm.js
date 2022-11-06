@@ -1,7 +1,7 @@
 import "./SignUpForm.css";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import SignUp from "../../services/Http/SignUp";
+import { SignUp } from "../../services/Http/FridgeApi/FridgeApiService";
 import { useState } from "react";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
 import { useNavigate } from "react-router-dom";

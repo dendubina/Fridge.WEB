@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
 import FridgesList from "./pages/FridgesList/FridgesList";
+import CreateFridge from "./pages/CreateFridge/CreateFridge";
 import useAuth from "./features/Hooks/useAuth";
 
 const Router = () => {
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Fridges" element={<FridgesList />} />
+        <Route path="/Fridges/Create" element={<CreateFridge />} />
       </Routes>
     </BrowserRouter>
   ) : (

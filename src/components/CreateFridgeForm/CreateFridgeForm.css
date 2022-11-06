@@ -1,0 +1,14 @@
+.checkbox-td{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.image-td{
+    display: block;
+    height: 50px;
+    width: 50px;
+}
+
+.add-products-block{
+    margin-top: 20px;
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import GetAllFridges from "../../services/Http/GetAllFridges";
+import { GetAllFridges } from "../../services/Http/FridgeApi/FridgeApiService";
 import "./FridgesTable.css";
 
 export default function FridgesTable() {
@@ -9,7 +9,6 @@ export default function FridgesTable() {
   useEffect(() => {
     GetAllFridges()
       .then((response) => {
-        console.log(response);
         setFridges(response);
       })
       .catch((error) => {
@@ -19,43 +18,43 @@ export default function FridgesTable() {
 
   return (
     <>
-      {fridges && fridges.length > 0 ? (
-        <Table striped>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Owner Name</th>
-              <th>Model</th>
-              <th>Model Year</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fridges.map((item, index) => (
+      {fridges && fridges.length > 0 ? (        
+          <Table striped responsive>
+            <thead>
               <tr>
-                <td>
-                  <span key={index}>{item.id}</span>
-                </td>
-                <td>
-                  <span key={index}>{item.name}</span>
-                </td>
-                <td>
-                  <span key={index}>{item.ownerName}</span>
-                </td>
-                <td>
-                  <span key={index}>{item.modelName}</span>
-                </td>
-                <td>
-                  <span key={index}>{item.modelYear}</span>
-                </td>
-                <td>
-                  <span>actions</span>
-                </td>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Owner Name</th>
+                <th>Model</th>
+                <th>Model Year</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {fridges.map((item, index) => (
+                <tr key={index}>
+                  <td>
+                    <span>{item.id}</span>
+                  </td>
+                  <td>
+                    <span>{item.name}</span>
+                  </td>
+                  <td>
+                    <span>{item.ownerName}</span>
+                  </td>
+                  <td>
+                    <span>{item.modelName}</span>
+                  </td>
+                  <td>
+                    <span>{item.modelYear}</span>
+                  </td>
+                  <td>
+                    <span>actions</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
       ) : (
         <></>
       )}

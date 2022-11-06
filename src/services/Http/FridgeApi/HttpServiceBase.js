@@ -1,7 +1,7 @@
-import BaseHttpError from "../../features/Errors/Http/BaseHttpError";
-import UnathorizedAccessError from "../../features/Errors/Http/UnathorizedAccessError";
-import ForbiddenAccessError from "../../features/Errors/Http/ForbiddenAccessError";
-import { getCookie } from "../CookieService/CookieService";
+import BaseHttpError from "../../../features/Errors/Http/BaseHttpError";
+import UnathorizedAccessError from "../../../features/Errors/Http/UnathorizedAccessError";
+import ForbiddenAccessError from "../../../features/Errors/Http/ForbiddenAccessError";
+import { getCookie } from "../../CookieService/CookieService";
 
 const BaseHttpService = async (uri, fetchRequestOptions) => {
   const authToken = "Bearer " + getCookie("jwttoken");
@@ -28,6 +28,8 @@ const BaseHttpService = async (uri, fetchRequestOptions) => {
         throw new UnathorizedAccessError();
       case 403:
         throw new ForbiddenAccessError();
+      case 400:
+        break;
       default:
         throw new BaseHttpError("Something went wrong", response.status);
     }

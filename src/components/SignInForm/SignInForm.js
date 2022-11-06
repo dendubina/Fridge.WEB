@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
-import SignIn from "../../services/Http/SignIn";
+import { SignIn } from "../../services/Http/FridgeApi/FridgeApiService";
 import useAuth from "../../features/Hooks/useAuth";
 
 export default function SignInForm() {
