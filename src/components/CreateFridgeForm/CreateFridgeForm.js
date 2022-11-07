@@ -31,7 +31,7 @@ export default function CreateFridgeForm() {
     formData.fridgeProducts.forEach((product) => {
       if (product.add) {
         productsToAdd.push({
-          id: product.id,
+          productId: product.id,
           quantity: product.defaultQuantity,
         });
       }

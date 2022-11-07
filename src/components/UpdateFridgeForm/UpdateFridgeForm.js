@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Form, Row, Button } from "react-bootstrap";
+import { Col, Container, Form, Row, Button, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
@@ -29,6 +29,14 @@ export default function UpdateFridgeForm(props) {
         navigate("/fridges");
       }
     });
+  };
+
+  const handleEdit = (event) => {
+    console.log(event.target.name);
+  };
+
+  const handleDelete = (event) => {
+    console.log(event.target.name);
   };
 
   useEffect(() => {
@@ -110,6 +118,54 @@ export default function UpdateFridgeForm(props) {
                     </Button>
                   </div>
                 </Form>
+
+                {fridge &&
+                fridge.fridgeProducts &&
+                fridge.fridgeProducts.length > 0 ? (
+                  <>
+                    <Table striped responsive className="fridge-products-table">
+                      <thead>
+                        <tr>
+                          <th>Image</th>
+                          <th>Name</th>
+                          <th>Quantity</th>
+                          <th className="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {fridge.fridgeProducts.map((product, index) => (
+                          <tr key={index}>
+                            <td>
+                              <img className="image-td" src={product.imageSource} alt=":("></img>
+                            </td>
+                            <td>{product.productName}</td>
+                            <td>{product.quantity}</td>
+                            <td className="text-center">
+                              <Button
+                                variant="warning"
+                                size="sm"
+                                className="action-button"
+                                name={product.id}
+                                onClick={handleEdit}>
+                                Edit
+                              </Button>
+                              <Button
+                                variant="danger"
+                                size="sm"
+                                className="action-button"
+                                name={product.id}
+                                onClick={handleDelete}>
+                                Delete
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </>
+                ) : (
+                  <></>
+                )}
               </Col>
             </Row>
           </Container>

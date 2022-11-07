@@ -5,3 +5,13 @@ body {
 .error-message {
   color: rgb(199, 20, 20);
 }
+
+td {
+  vertical-align: middle;
+}
+
+.image-td {
+  display: block;
+  height: 50px;
+  width: 50px;
+}

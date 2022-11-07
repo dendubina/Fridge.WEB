@@ -32,7 +32,7 @@ const BaseHttpService = async (uri, fetchRequestOptions) => {
       case 404:
         throw new ResourceNotFoundError();
       case 400:
-        break;
+        return await response.json();
       default:
         throw new BaseHttpError("Something went wrong", response.status);
     }
