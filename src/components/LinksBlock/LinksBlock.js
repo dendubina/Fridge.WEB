@@ -9,6 +9,9 @@ export default function LinksBlock() {
         <ListGroup.Item>
           <Link to="/fridges">Fridges</Link>
         </ListGroup.Item>
+        <ListGroup.Item>
+          <Link to="/products">Products</Link>
+        </ListGroup.Item>
       </ListGroup>
     </>
   );

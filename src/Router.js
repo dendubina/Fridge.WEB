@@ -8,6 +8,9 @@ import useAuth from "./features/Hooks/useAuth";
 import UpdateFridge from "./pages/Fridges/UpdateFridge/UpdateFridge";
 import UpdateProductInFridge from "./pages/Fridges/UpdateProductInFridge/UpdateProductInFridge";
 import AddProductInFridge from "./pages/Fridges/AddProductInFridge/AddProductInFridge";
+import ProductsList from "./pages/Products/ProductsList/ProductsList";
+import AddProduct from "./pages/Products/AddProduct/AddProduct";
+import EditProduct from "./pages/Products/EditProduct/EditProduct";
 
 const Router = () => {
   const auth = useAuth();
@@ -21,8 +24,17 @@ const Router = () => {
         <Route path="/Fridges" element={<FridgesList />} />
         <Route path="/Fridges/Create" element={<CreateFridge />} />
         <Route path="/Fridges/Update/:fridgeId" element={<UpdateFridge />} />
-        <Route path="/Fridges/:fridgeId/products/:productId" element ={<UpdateProductInFridge />} /> 
-        <Route path="/Fridges/:fridgeId/AddProduct" element={<AddProductInFridge />} />
+        <Route
+          path="/Fridges/:fridgeId/products/:productId"
+          element={<UpdateProductInFridge />}
+        />
+        <Route
+          path="/Fridges/:fridgeId/AddProduct"
+          element={<AddProductInFridge />}
+        />
+        <Route path="/Products" element={<ProductsList />} />
+        <Route path="/Products/Create" element={<AddProduct />} />
+        <Route path="/Products/Edit/:productId" element={<EditProduct />} />
       </Routes>
     </BrowserRouter>
   ) : (
