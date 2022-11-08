@@ -32,13 +32,14 @@ export default function UpdateFridgeForm(props) {
     });
   };
 
-  const handleEdit = (event) => {
-    console.log(event.target.name);
-  };
+  const handleEdit = (event) =>
+    navigate(`/fridges/${fridge.id}/products/${event.target.name}`);
+
+  const handleAdd = () => navigate(`/fridges/${fridge.id}/addproduct`);
 
   const handleDelete = (event) => {
     let productId = event.target.name;
-    
+
     deleteProductFromFridge(fridge.id, productId).then((response) => {
       setFridge((prevFridge) => {
         const newFridge = { ...prevFridge };
@@ -181,6 +182,17 @@ export default function UpdateFridgeForm(props) {
                 ) : (
                   <></>
                 )}
+
+                <div className="text-center">
+                  <Button
+                    className="add-product-button"
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    onClick={handleAdd}>
+                    Add Product
+                  </Button>
+                </div>
               </Col>
             </Row>
           </Container>

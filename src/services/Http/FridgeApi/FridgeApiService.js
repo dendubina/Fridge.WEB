@@ -66,5 +66,15 @@ export const deleteProductFromFridge = async (fridgeId, productId) => {
   );
 };
 
+export const addProductInFridge = async (fridgeId, formData) =>{
+   const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  };
+
+  await BaseHttpService(`${fridgeApi}/api/fridges/${fridgeId}/products`, options);
+}
+
 export const getAllProducts = async () =>
   await BaseHttpService(`${fridgeApi}/api/products`);
