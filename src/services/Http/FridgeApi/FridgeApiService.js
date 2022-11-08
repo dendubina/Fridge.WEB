@@ -1,28 +1,27 @@
 import { fridgeApi } from "../../Hosts";
-import BaseHttpService from "./HttpServiceBase";
+import { getCookie } from "../../CookieService/CookieService";
 
-export const SignIn = async (data) => {
+export const signIn = async (data) => {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
 
-  return await BaseHttpService(`${fridgeApi}/SignIn`, requestOptions);
+  return await send(`${fridgeApi}/SignIn`, requestOptions);
 };
 
-export const SignUp = async (data) => {
+export const signUp = async (data) => {
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
 
-  return await BaseHttpService(`${fridgeApi}/SignUp`, options);
+  return await send(`${fridgeApi}/SignUp`, options);
 };
 
-export const getAllFridges = async () =>
-  await BaseHttpService(`${fridgeApi}/api/fridges`);
+export const getAllFridges = async () => await send(`${fridgeApi}/api/fridges`);
 
 export const createFridge = async (data) => {
   const options = {
@@ -31,18 +30,18 @@ export const createFridge = async (data) => {
     body: JSON.stringify(data),
   };
 
-  return await BaseHttpService(`${fridgeApi}/api/Fridges`, options);
+  return await send(`${fridgeApi}/api/Fridges`, options);
 };
 
 export const getFridgeById = async (fridgeId) =>
-  await BaseHttpService(`${fridgeApi}/api/fridges/${fridgeId}`);
+  await send(`${fridgeApi}/api/fridges/${fridgeId}`);
 
 export const deleteFridge = async (fridgeId) => {
   const options = {
     method: "DELETE",
   };
 
-  await BaseHttpService(`${fridgeApi}/api/fridges/${fridgeId}`, options);
+  return await send(`${fridgeApi}/api/fridges/${fridgeId}`, options);
 };
 
 export const updateFridge = async (fridge) => {
@@ -52,7 +51,7 @@ export const updateFridge = async (fridge) => {
     body: JSON.stringify(fridge),
   };
 
-  await BaseHttpService(`${fridgeApi}/api/fridges/${fridge.id}`, options);
+  return await send(`${fridgeApi}/api/fridges/${fridge.id}`, options);
 };
 
 export const deleteProductFromFridge = async (fridgeId, productId) => {
@@ -60,7 +59,7 @@ export const deleteProductFromFridge = async (fridgeId, productId) => {
     method: "DELETE",
   };
 
-  await BaseHttpService(
+  return await send(
     `${fridgeApi}/api/fridges/${fridgeId}/products/${productId}`,
     options
   );
@@ -73,14 +72,11 @@ export const addProductInFridge = async (fridgeId, formData) => {
     body: JSON.stringify(formData),
   };
 
-  await BaseHttpService(
-    `${fridgeApi}/api/fridges/${fridgeId}/products`,
-    options
-  );
+  await send(`${fridgeApi}/api/fridges/${fridgeId}/products`, options);
 };
 
 export const getAllProducts = async () =>
-  await BaseHttpService(`${fridgeApi}/api/products`);
+  await send(`${fridgeApi}/api/products`);
 
 export const createProduct = async (formData) => {
   const options = {
@@ -88,7 +84,7 @@ export const createProduct = async (formData) => {
     body: formData,
   };
 
-  return await BaseHttpService(`${fridgeApi}/api/products`, options);
+  return await send(`${fridgeApi}/api/products`, options);
 };
 
 export const deleteProduct = async (productId) => {
@@ -96,14 +92,11 @@ export const deleteProduct = async (productId) => {
     method: "DELETE",
   };
 
-  return await BaseHttpService(
-    `${fridgeApi}/api/products/${productId}`,
-    options
-  );
+  return await send(`${fridgeApi}/api/products/${productId}`, options);
 };
 
 export const getProductById = async (productId) =>
-  await BaseHttpService(`${fridgeApi}/api/products/${productId}`);
+  await send(`${fridgeApi}/api/products/${productId}`);
 
 export const updateProduct = async (productId, formData) => {
   const options = {
@@ -111,8 +104,25 @@ export const updateProduct = async (productId, formData) => {
     body: formData,
   };
 
-  return await BaseHttpService(
-    `${fridgeApi}/api/products/${productId}`,
-    options
-  );
+  return await send(`${fridgeApi}/api/products/${productId}`, options);
+};
+
+const send = async (uri, fetchRequestOptions) => {
+  const authToken = "Bearer " + getCookie("jwttoken");
+
+  if (!fetchRequestOptions) {
+    fetchRequestOptions = {
+      headers: {
+        Authorization: authToken,
+      },
+    };
+  } else if (!fetchRequestOptions.headers) {
+    fetchRequestOptions.headers = {
+      Authorization: authToken,
+    };
+  } else if (fetchRequestOptions.headers) {
+    fetchRequestOptions.headers["Authorization"] = authToken;
+  }
+
+  return await fetch(uri, fetchRequestOptions);
 };

@@ -43,28 +43,26 @@ export default function CreateFridgeForm() {
   const onSubmit = (formData) => {
     formData.fridgeProducts = getProductsToAdd(formData);
 
-    console.log(formData);
-
     createFridge(formData)
-    .then((response) => {
-      if (response.status === 400) {
-        setServerError(GetServerErrors(response.errors));
-      } else{
-        navigate('/fridges');
-      }
-    })
-    .catch(error =>{
-        console.error(error);
-    });
+      .then((response) => response.json())
+      .then((result) => {
+        result.status === 400
+          ? setServerError(GetServerErrors(result.errors))
+          : navigate("/fridges");
+      })
+      .catch((error) => console.error(error));
   };
 
   useEffect(() => {
-    getAllProducts().then((response) => {
-      response.forEach((product) => {
-        product.add = false;
-        append(product, { shouldFocus: false });
-      });
-    });
+    getAllProducts()
+      .then((response) => response.json())
+      .then((products) => {
+        products.forEach((product) => {
+          product.add = false;
+          append(product, { shouldFocus: false });
+        });
+      })
+      .catch((error) => console.error(error));
   }, [append]);
 
   return (

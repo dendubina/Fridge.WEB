@@ -26,13 +26,14 @@ export default function AddProductForm() {
     formData.append("Image", data.image[0]);
 
     createProduct(formData)
-      .then((response) => {
-        if (response.status === 400) {
-          setServerError(GetServerErrors(response.errors));
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === 400) {
+          setServerError(GetServerErrors(result.errors));
         } else {
           navigate("/products");
         }
-      });      
+      });
   };
 
   return (

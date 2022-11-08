@@ -28,19 +28,24 @@ export default function EditProductForm(props) {
     }
     formData.append("Image", data.image[0]);
 
-    updateProduct(props.productId, formData).then((response) => {
-      if (response && response.status === 400) {
-        setServerError(GetServerErrors(response.errors));
-      } else {
-        navigate("/products");
-      }
-    });
+    updateProduct(props.productId, formData)
+      .then((response) => response.json())
+      .then((result) =>
+        result.status === 400
+          ? setServerError(GetServerErrors(result.errors))
+          : navigate("/products")
+      )
+      .catch((error) => {
+        console.error(error);
+        setServerError(["Something went wrong, try later"]);
+      });   
   };
 
   useEffect(() => {
-    getProductById(props.productId).then((response) => {
-      setProduct(response);
-    });
+    getProductById(props.productId)
+      .then((response) => response.json())
+      .then((product) => setProduct(product))
+      .catch((error) => console.error(error));
   }, [setProduct, props.productId]);
 
   return (

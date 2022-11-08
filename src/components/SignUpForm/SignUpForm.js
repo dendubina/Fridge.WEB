@@ -1,7 +1,7 @@
 import "./SignUpForm.css";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { SignUp } from "../../services/Http/FridgeApi/FridgeApiService";
+import { signUp } from "../../services/Http/FridgeApi/FridgeApiService";
 import { useState } from "react";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
 import { useNavigate } from "react-router-dom";
@@ -16,14 +16,20 @@ export default function SignUpForm() {
     getValues,
   } = useForm();
 
-  const onSubmit = (data) => {
-    SignUp(data).then((response) => {
-      if (response.status === 400) {
-        setServerError(GetServerErrors(response.errors));
-      } else {
-        navigate("/");
-      }
-    });
+  const onSubmit = (formData) => {
+    signUp(formData)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === 400) {
+          setServerError(GetServerErrors(result.errors));
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setServerError(["Something went wrong, try later"]);
+      });
   };
 
   return (

@@ -14,19 +14,19 @@ export default function ProductsTable() {
   const auth = useAuth();
 
   useEffect(() => {
-    getAllProducts().then((response) => {
-      setProducts(response);
-    });
+    getAllProducts()
+      .then((response) => response.json())
+      .then((products) => setProducts(products));
   }, []);
 
   const handleEdit = (event) => navigate(`/products/edit/${event.target.name}`);
 
   const handleDelete = (event) => {
-    deleteProduct(event.target.name).then(
-      setProducts(
-        products.filter((product) => product.id !== event.target.name)
-      )
-    );
+    deleteProduct(event.target.name).then((response) => {
+      if (response.ok) {
+        products.filter((product) => product.id !== event.target.name);
+      }
+    });
   };
 
   const handleAdd = () => navigate("/products/create");

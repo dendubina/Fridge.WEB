@@ -13,18 +13,17 @@ export default function FridgesTable() {
 
   useEffect(() => {
     getAllFridges()
-      .then((response) => {
-        setFridges(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      .then((response) => response.json())
+      .then((fridges) => setFridges(fridges))
+      .catch((error) => console.error(error));
   }, []);
 
   const handleDelete = (event) => {
-    deleteFridge(event.target.name).then(
-      setFridges(fridges.filter((fridge) => fridge.id !== event.target.name))
-    );
+    deleteFridge(event.target.name).then((response) => {
+      if (response.ok) {
+        setFridges(fridges.filter((fridge) => fridge.id !== event.target.name));
+      }
+    });    
   };
 
   const handleEdit = (event) =>
@@ -90,7 +89,9 @@ export default function FridgesTable() {
           </tbody>
         </Table>
       ) : (
-        <></>
+        <>
+          <p>Loading...</p>
+        </>
       )}
     </>
   );

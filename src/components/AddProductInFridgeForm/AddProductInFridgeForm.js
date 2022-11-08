@@ -13,9 +13,9 @@ export default function AddProductInFridgeForm(props) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    getAllProducts().then((response) => {
-      setProducts(response);
-    });
+    getAllProducts()
+      .then((response) => response.json())
+      .then((products) => setProducts(products));
   }, []);
 
   const {
@@ -28,7 +28,11 @@ export default function AddProductInFridgeForm(props) {
     addProductInFridge(props.fridgeId, {
       productId: formData.product,
       quantity: formData.quantity,
-    }).then(navigate(`/fridges/update/${props.fridgeId}`, { replace: true }));
+    }).then((response) => {
+      if (response.ok) {
+        navigate(`/fridges/update/${props.fridgeId}`, { replace: true });
+      }
+    });
   };
 
   return (

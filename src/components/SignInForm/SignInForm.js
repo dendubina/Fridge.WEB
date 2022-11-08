@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
-import { SignIn } from "../../services/Http/FridgeApi/FridgeApiService";
+import { signIn } from "../../services/Http/FridgeApi/FridgeApiService";
 import useAuth from "../../features/Hooks/useAuth";
 
 export default function SignInForm() {
@@ -17,15 +17,21 @@ export default function SignInForm() {
   } = useForm();
   const auth = useAuth();
 
-  const onSubmit = (data) => {
-    SignIn(data).then((response) => {
-      if (response.status === 400) {
-        setServerError(GetServerErrors(response.errors));
-      } else {
-        auth.logIn(response);
-        navigate("/");
-      }
-    });
+  const onSubmit = (formData) => {
+    signIn(formData)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === 400) {
+          setServerError(GetServerErrors(result.errors));
+        } else {
+          auth.logIn(result);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setServerError(["Something went wrong, try later"]);
+      });
   };
 
   return (

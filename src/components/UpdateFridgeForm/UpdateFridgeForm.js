@@ -23,13 +23,15 @@ export default function UpdateFridgeForm(props) {
   const onSubmit = (formData) => {
     formData.id = fridge.id;
 
-    updateFridge(formData).then((response) => {
-      if (response && response.status === 400) {
-        setServerErrors(GetServerErrors(response.errors));
-      } else {
-        navigate("/fridges");
-      }
-    });
+    updateFridge(formData)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === 400) {
+          setServerErrors(GetServerErrors(result.errors));
+        } else {
+          navigate("/fridges");
+        }
+      });
   };
 
   const handleEdit = (event) =>
@@ -38,26 +40,27 @@ export default function UpdateFridgeForm(props) {
   const handleAdd = () => navigate(`/fridges/${fridge.id}/addproduct`);
 
   const handleDelete = (event) => {
-    let productId = event.target.name;
+    const productId = event.target.name;
 
     deleteProductFromFridge(fridge.id, productId).then((response) => {
-      setFridge((prevFridge) => {
-        const newFridge = { ...prevFridge };
+      if (response.ok) {
+        setFridge((prevFridge) => {
+          const newFridge = { ...prevFridge };
 
-        newFridge.fridgeProducts = prevFridge.fridgeProducts.filter(
-          (product) => product.productId !== productId
-        );
+          newFridge.fridgeProducts = prevFridge.fridgeProducts.filter(
+            (product) => product.productId !== productId
+          );
 
-        return newFridge;
-      });
+          return newFridge;
+        });
+      }
     });
   };
 
   useEffect(() => {
     getFridgeById(props.fridgeId)
-      .then((response) => {
-        setFridge(response);
-      })
+      .then((response) => response.json())
+      .then((result) => setFridge(result))
       .catch((error) => console.error(error));
   }, [props.fridgeId]);
 
