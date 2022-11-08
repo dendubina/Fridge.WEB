@@ -55,5 +55,16 @@ export const updateFridge = async (fridge) => {
   await BaseHttpService(`${fridgeApi}/api/fridges/${fridge.id}`, options);
 };
 
+export const deleteProductFromFridge = async (fridgeId, productId) => {
+  const options = {
+    method: "DELETE",
+  };
+
+  await BaseHttpService(
+    `${fridgeApi}/api/fridges/${fridgeId}/products/${productId}`,
+    options
+  );
+};
+
 export const getAllProducts = async () =>
   await BaseHttpService(`${fridgeApi}/api/products`);

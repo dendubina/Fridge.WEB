@@ -6,6 +6,7 @@ import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors"
 import {
   getFridgeById,
   updateFridge,
+  deleteProductFromFridge,
 } from "../../services/Http/FridgeApi/FridgeApiService";
 import "./UpdateFridgeForm.css";
 
@@ -36,13 +37,24 @@ export default function UpdateFridgeForm(props) {
   };
 
   const handleDelete = (event) => {
-    console.log(event.target.name);
+    let productId = event.target.name;
+    
+    deleteProductFromFridge(fridge.id, productId).then((response) => {
+      setFridge((prevFridge) => {
+        const newFridge = { ...prevFridge };
+
+        newFridge.fridgeProducts = prevFridge.fridgeProducts.filter(
+          (product) => product.productId !== productId
+        );
+
+        return newFridge;
+      });
+    });
   };
 
   useEffect(() => {
     getFridgeById(props.fridgeId)
       .then((response) => {
-        console.log(response);
         setFridge(response);
       })
       .catch((error) => console.error(error));
@@ -134,9 +146,12 @@ export default function UpdateFridgeForm(props) {
                       </thead>
                       <tbody>
                         {fridge.fridgeProducts.map((product, index) => (
-                          <tr key={index}>
+                          <tr key={product.id}>
                             <td>
-                              <img className="image-td" src={product.imageSource} alt=":("></img>
+                              <img
+                                className="image-td"
+                                src={product.imageSource}
+                                alt=":("></img>
                             </td>
                             <td>{product.productName}</td>
                             <td>{product.quantity}</td>
@@ -145,7 +160,7 @@ export default function UpdateFridgeForm(props) {
                                 variant="warning"
                                 size="sm"
                                 className="action-button"
-                                name={product.id}
+                                name={product.productId}
                                 onClick={handleEdit}>
                                 Edit
                               </Button>
@@ -153,7 +168,7 @@ export default function UpdateFridgeForm(props) {
                                 variant="danger"
                                 size="sm"
                                 className="action-button"
-                                name={product.id}
+                                name={product.productId}
                                 onClick={handleDelete}>
                                 Delete
                               </Button>
