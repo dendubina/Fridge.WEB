@@ -33,6 +33,16 @@ export default function ProductsTable() {
 
   return (
     <>
+      <div className="text-center">
+        <Button
+          className="add-product-button"
+          type="submit"
+          variant="primary"
+          size="lg"
+          onClick={handleAdd}>
+          Add Product
+        </Button>
+      </div>
       {products && products.length > 0 ? (
         <Table striped responsive>
           <thead>
@@ -89,16 +99,6 @@ export default function ProductsTable() {
       ) : (
         <></>
       )}
-      <div className="text-center">
-        <Button
-          className="add-product-button"
-          type="submit"
-          variant="primary"
-          size="lg"
-          onClick={handleAdd}>
-          Add Product
-        </Button>
-      </div>
     </>
   );
 }

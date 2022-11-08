@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   deleteFridge,
   getAllFridges,
@@ -32,6 +32,11 @@ export default function FridgesTable() {
 
   return (
     <>
+      <div className="text-center">
+        <Link to="/fridges/create" className="btn btn-primary create-button">
+          Create
+        </Link>
+      </div>
       {fridges && fridges.length > 0 ? (
         <Table striped responsive>
           <thead>

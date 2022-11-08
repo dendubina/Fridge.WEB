@@ -41,7 +41,7 @@ export default function EditProductForm(props) {
     getProductById(props.productId).then((response) => {
       setProduct(response);
     });
-  }, []);
+  }, [setProduct, props.productId]);
 
   return (
     <>
