@@ -50,29 +50,29 @@ export default function FridgesTable() {
             </tr>
           </thead>
           <tbody>
-            {fridges.map((item, index) => (
-              <tr key={index}>
+            {fridges.map((fridge) => (
+              <tr key={fridge.id}>
                 <td>
-                  <span>{item.id}</span>
+                  <span>{fridge.id}</span>
                 </td>
                 <td>
-                  <span>{item.name}</span>
+                  <span>{fridge.name}</span>
                 </td>
                 <td>
-                  <span>{item.ownerName}</span>
+                  <span>{fridge.ownerName}</span>
                 </td>
                 <td>
-                  <span>{item.modelName}</span>
+                  <span>{fridge.modelName}</span>
                 </td>
                 <td>
-                  <span>{item.modelYear}</span>
+                  <span>{fridge.modelYear}</span>
                 </td>
                 <td className="text-center">
                   <Button
                     variant="warning"
                     size="sm"
                     className="action-button"
-                    name={item.id}
+                    name={fridge.id}
                     onClick={handleEdit}>
                     Edit
                   </Button>
@@ -80,7 +80,7 @@ export default function FridgesTable() {
                     variant="danger"
                     size="sm"
                     className="action-button"
-                    name={item.id}
+                    name={fridge.id}
                     onClick={handleDelete}>
                     Delete
                   </Button>
