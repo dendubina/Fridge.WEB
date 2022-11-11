@@ -10,7 +10,7 @@ export default function Header() {
   const handleLogOutClick = () => {
     auth.logOut();
     navigate("/");
-  };
+  };  
 
   return (
     <>
@@ -29,13 +29,18 @@ export default function Header() {
             <Nav className="me-auto"></Nav>
             <Nav>
               {auth.isAuthed ? (
-                <Button
-                  variant="outline-primary"
-                  type="button"
-                  className="login-button"
-                  onClick={handleLogOutClick}>
-                  Logout
-                </Button>
+                <>
+                  {auth.isAdmin && (
+                    <Link to="/adminpanel" className="btn btn-outline-warning login-button">Admin Panel</Link>                 
+                  )}
+                  <Button
+                    variant="outline-primary"
+                    type="button"
+                    className="login-button"
+                    onClick={handleLogOutClick}>
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <>
                   <Link to="/SignIn" className="nav-link">

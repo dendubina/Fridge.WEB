@@ -4,22 +4,19 @@ import {
 } from "../../services/CookieService/CookieService";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
+import jwtDecode from "jwt-decode";
 
 function AuthProvider(props) {
   const [isAuthed, setAuthed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userData, setUserData] = useState(null);
 
   const logOut = useCallback(() => {
     setCookie("jwttoken", "", { "max-age": -1 });
     setAuthed(false);
+    setIsAdmin(false);
     setUserData(null);
-  }, []);
-
-  const logIn = useCallback((data) => {
-    setCookie("jwttoken", data.jwtToken);
-    setUserData(data);
-    setAuthed(true);
   }, []);
 
   const loadData = useCallback(() => {
@@ -29,10 +26,22 @@ function AuthProvider(props) {
       setAuthed(false);
     } else {
       setAuthed(true);
+      const decoded = jwtDecode(token);
+      setUserData(decoded);
+
+      if (decoded.role.includes("Admin")) {
+        setIsAdmin(true);
+      }      
+      console.log(decoded);
     }
 
     setIsLoaded(true);
-  }, []);
+  }, []);  
+
+  const logIn = useCallback((data) => {
+    setCookie("jwttoken", data.jwtToken);
+    loadData();
+  }, [loadData]);  
 
   useEffect(() => {
     loadData();
@@ -43,10 +52,11 @@ function AuthProvider(props) {
       isLoaded,
       isAuthed,
       userData,
+      isAdmin,
       logIn,
       logOut,
     }),
-    [userData, isAuthed, isLoaded, logIn, logOut]
+    [userData, isAuthed, isLoaded, isAdmin, logIn, logOut]
   );
 
   return (

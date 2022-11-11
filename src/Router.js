@@ -11,6 +11,8 @@ import AddProductInFridge from "./pages/Fridges/AddProductInFridge/AddProductInF
 import ProductsList from "./pages/Products/ProductsList/ProductsList";
 import AddProduct from "./pages/Products/AddProduct/AddProduct";
 import EditProduct from "./pages/Products/EditProduct/EditProduct";
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
+import RequireAdmin from "./components/RequireAuthComponents/RequireAdmin";
 
 const Router = () => {
   const auth = useAuth();
@@ -35,6 +37,14 @@ const Router = () => {
         <Route path="/Products" element={<ProductsList />} />
         <Route path="/Products/Create" element={<AddProduct />} />
         <Route path="/Products/Edit/:productId" element={<EditProduct />} />
+        <Route
+          path="/AdminPanel"
+          element={
+            <RequireAdmin>
+              <AdminPanel />
+            </RequireAdmin>
+          }
+        />
       </Routes>
     </BrowserRouter>
   ) : (
