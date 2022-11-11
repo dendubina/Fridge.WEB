@@ -25,27 +25,32 @@ function AuthProvider(props) {
     if (token === null) {
       setAuthed(false);
     } else {
-      setAuthed(true);
-      const decoded = jwtDecode(token);
-      setUserData(decoded);
-
-      if (decoded.role.includes("Admin")) {
-        setIsAdmin(true);
-      }      
-      console.log(decoded);
+      setData(token);
     }
-
     setIsLoaded(true);
-  }, []);  
+  }, []);
 
-  const logIn = useCallback((data) => {
-    setCookie("jwttoken", data.jwtToken);
-    loadData();
-  }, [loadData]);  
+  const logIn = useCallback(
+    (data) => {
+      setCookie("jwttoken", data.jwtToken);
+      loadData();
+    },
+    [loadData]
+  );
 
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  const setData = (token) => {
+    setAuthed(true);
+    const decoded = jwtDecode(token);
+    setUserData(decoded);
+
+    if (decoded.role.includes("Admin")) {
+      setIsAdmin(true);
+    }
+  };
 
   const contextValue = useMemo(
     () => ({

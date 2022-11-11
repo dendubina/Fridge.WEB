@@ -7,7 +7,6 @@ export const signIn = async (data) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
-
   return await send(`${fridgeApi}/SignIn`, requestOptions);
 };
 
@@ -17,7 +16,6 @@ export const signUp = async (data) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
-
   return await send(`${fridgeApi}/SignUp`, options);
 };
 
@@ -29,7 +27,6 @@ export const createFridge = async (data) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
-
   return await send(`${fridgeApi}/api/Fridges`, options);
 };
 
@@ -40,7 +37,6 @@ export const deleteFridge = async (fridgeId) => {
   const options = {
     method: "DELETE",
   };
-
   return await send(`${fridgeApi}/api/fridges/${fridgeId}`, options);
 };
 
@@ -50,7 +46,6 @@ export const updateFridge = async (fridge) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fridge),
   };
-
   return await send(`${fridgeApi}/api/fridges/${fridge.id}`, options);
 };
 
@@ -58,7 +53,6 @@ export const deleteProductFromFridge = async (fridgeId, productId) => {
   const options = {
     method: "DELETE",
   };
-
   return await send(
     `${fridgeApi}/api/fridges/${fridgeId}/products/${productId}`,
     options
@@ -71,7 +65,6 @@ export const addProductInFridge = async (fridgeId, formData) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
   };
-
   await send(`${fridgeApi}/api/fridges/${fridgeId}/products`, options);
 };
 
@@ -83,7 +76,6 @@ export const createProduct = async (formData) => {
     method: "POST",
     body: formData,
   };
-
   return await send(`${fridgeApi}/api/products`, options);
 };
 
@@ -91,7 +83,6 @@ export const deleteProduct = async (productId) => {
   const options = {
     method: "DELETE",
   };
-
   return await send(`${fridgeApi}/api/products/${productId}`, options);
 };
 
@@ -106,6 +97,8 @@ export const updateProduct = async (productId, formData) => {
 
   return await send(`${fridgeApi}/api/products/${productId}`, options);
 };
+
+export const getAllUsers = async () => send(`${fridgeApi}/api/users`);
 
 const send = async (uri, fetchRequestOptions) => {
   const authToken = "Bearer " + getCookie("jwttoken");
