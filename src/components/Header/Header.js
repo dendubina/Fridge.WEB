@@ -31,7 +31,7 @@ export default function Header() {
               {auth.isAuthed ? (
                 <>
                   {auth.isAdmin && (
-                    <Link to="/adminpanel" className="btn btn-outline-warning login-button">Admin Panel</Link>                 
+                    <Link to="/users" className="btn btn-outline-warning login-button">Admin Panel</Link>                 
                   )}
                   <Button
                     variant="outline-primary"

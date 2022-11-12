@@ -38,7 +38,7 @@ const Router = () => {
         <Route path="/Products/Create" element={<AddProduct />} />
         <Route path="/Products/Edit/:productId" element={<EditProduct />} />
         <Route
-          path="/AdminPanel"
+          path="/users"
           element={
             <RequireAdmin>
               <AdminPanel />

@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../../services/Http/FridgeApi/FridgeApiService";
+import {
+  addAdmin,
+  blockUser,
+  getAllUsers,
+  removeAdmin,
+  unBlockUser,
+} from "../../services/Http/FridgeApi/FridgeApiService";
 import useAuth from "../../features/Hooks/useAuth";
 import "./AdminPanelTable.css";
 import { useNavigate } from "react-router-dom";
@@ -14,24 +20,103 @@ export default function AdminPanelTable() {
   useEffect(() => {
     getAllUsers()
       .then((response) => {
-        if (response.status === 401) {
-          auth.logOut();
-          navigate("/signin");
+        if (response.ok) {
+          return response.json();
         }
-        return response.json();
+        handleError();
       })
       .then((result) => {
         setUsers(result);
       });
   }, [auth, navigate]);
 
-  const handleAddAdminClick = () => {};
+  const handleError = () => {
+    auth.logOut();
+    navigate("/signin");
+  };
 
-  const handleRemoveAdminClick = () => {};
+  const handleAddAdminClick = () => {
+    if (currentUserId) {
+      addAdmin(currentUserId).then((response) => {
+        if (response.ok) {
+          const newUsers = users.map((user) => {
+            if (user.id === currentUserId && !user.roles.includes("Admin")) {
+              const newRoles = user.roles;
+              newRoles.push("Admin");
+              return { ...user, roles: newRoles };
+            } else {
+              return user;
+            }
+          });
 
-  const blockClick = () => {};
+          setUsers(newUsers);
+        } else {
+          handleError();
+        }
+      });
+    }
+  };
 
-  const handleUnblockClick = () => {};
+  const handleRemoveAdminClick = () => {
+    if (currentUserId) {
+      removeAdmin(currentUserId).then((response) => {
+        if (response.ok) {
+          const newUsers = users.map((user) => {
+            if (user.id === currentUserId && user.roles.includes("Admin")) {
+              let newRoles = user.roles;
+              newRoles = newRoles.filter((e) => e !== "Admin");
+              return { ...user, roles: newRoles };
+            } else {
+              return user;
+            }
+          });
+
+          setUsers(newUsers);
+        } else {
+          handleError();
+        }
+      });
+    }
+  };
+
+  const handleblockClick = () => {
+    if (currentUserId) {
+      blockUser(currentUserId).then((response) => {
+        if (response.ok) {
+          const newUsers = users.map((user) => {
+            if (user.id === currentUserId) {
+              return { ...user, status: 2 };
+            } else {
+              return user;
+            }
+          });
+
+          setUsers(newUsers);
+        } else {
+          handleError();
+        }
+      });
+    }
+  };
+
+  const handleUnblockClick = () => {
+    if (currentUserId) {
+      unBlockUser(currentUserId).then((response) => {
+        if (response.ok) {
+          const newUsers = users.map((user) => {
+            if (user.id === currentUserId) {
+              return { ...user, status: 1 };
+            } else {
+              return user;
+            }
+          });
+          setUsers(newUsers);
+        } else {
+          handleError();
+        }
+      });
+    }
+  };
 
   const handleEdit = (event) => {
     console.log(event.target.name);
@@ -63,16 +148,28 @@ export default function AdminPanelTable() {
     <>
       <Container>
         <div className="buttons-block text-center">
-          <Button variant="outline-success" className="user-action-button">
+          <Button
+            variant="outline-success"
+            className="user-action-button"
+            onClick={handleAddAdminClick}>
             Add admin
           </Button>
-          <Button variant="outline-warning" className="user-action-button">
+          <Button
+            variant="outline-warning"
+            className="user-action-button"
+            onClick={handleRemoveAdminClick}>
             Remove admin
           </Button>
-          <Button variant="outline-danger" className="user-action-button">
+          <Button
+            variant="outline-danger"
+            className="user-action-button"
+            onClick={handleblockClick}>
             Block
           </Button>
-          <Button variant="outline-success" className="user-action-button">
+          <Button
+            variant="outline-success"
+            className="user-action-button"
+            onClick={handleUnblockClick}>
             Unblock
           </Button>
         </div>

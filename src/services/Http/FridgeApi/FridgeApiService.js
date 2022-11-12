@@ -94,11 +94,38 @@ export const updateProduct = async (productId, formData) => {
     method: "PUT",
     body: formData,
   };
-
   return await send(`${fridgeApi}/api/products/${productId}`, options);
 };
 
 export const getAllUsers = async () => send(`${fridgeApi}/api/users`);
+
+export const addAdmin = async (userId) => {
+  const options = {
+    method: "PATCH",
+  };
+  return await send(`${fridgeApi}/api/users/${userId}/AddAdmin`, options);
+};
+
+export const removeAdmin = async (userId) =>{
+  const options = {
+    method: "PATCH",
+  };
+  return await send(`${fridgeApi}/api/users/${userId}/RemoveAdmin`, options);
+}
+
+export const blockUser = async (userId) =>{
+  const options = {
+    method: "PATCH",
+  };
+  return await send(`${fridgeApi}/api/users/${userId}/Block`, options);
+}
+
+export const unBlockUser = async (userId) => {
+  const options = {
+    method: "PATCH",
+  };
+  return await send(`${fridgeApi}/api/users/${userId}/UnBlock`, options);
+};
 
 const send = async (uri, fetchRequestOptions) => {
   const authToken = "Bearer " + getCookie("jwttoken");
