@@ -17,23 +17,22 @@ export default function AdminPanelTable() {
   const auth = useAuth();
   const navigate = useNavigate();
 
+  const handleError = () => {
+    auth.logOut();
+    navigate("/signin");
+  };
+
   useEffect(() => {
     getAllUsers()
       .then((response) => {
         if (response.ok) {
           return response.json();
         }
-        handleError();
       })
       .then((result) => {
         setUsers(result);
       });
   }, [auth, navigate]);
-
-  const handleError = () => {
-    auth.logOut();
-    navigate("/signin");
-  };
 
   const handleAddAdminClick = () => {
     if (currentUserId) {
@@ -118,9 +117,7 @@ export default function AdminPanelTable() {
     }
   };
 
-  const handleEdit = (event) => {
-    console.log(event.target.name);
-  };
+  const handleEdit = (event) => navigate(`/users/${event.target.name}/Edit`);
 
   const handleSelectClick = (event) => {
     const checkBoxes = document.querySelectorAll(".form-check-input");

@@ -13,6 +13,7 @@ import AddProduct from "./pages/Products/AddProduct/AddProduct";
 import EditProduct from "./pages/Products/EditProduct/EditProduct";
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 import RequireAdmin from "./components/RequireAuthComponents/RequireAdmin";
+import UpdateUser from "./pages/UpdateUser/UpdateUser";
 
 const Router = () => {
   const auth = useAuth();
@@ -42,6 +43,14 @@ const Router = () => {
           element={
             <RequireAdmin>
               <AdminPanel />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/users/:userId/Edit"
+          element={
+            <RequireAdmin>
+              <UpdateUser />
             </RequireAdmin>
           }
         />

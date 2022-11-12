@@ -106,25 +106,37 @@ export const addAdmin = async (userId) => {
   return await send(`${fridgeApi}/api/users/${userId}/AddAdmin`, options);
 };
 
-export const removeAdmin = async (userId) =>{
+export const removeAdmin = async (userId) => {
   const options = {
     method: "PATCH",
   };
   return await send(`${fridgeApi}/api/users/${userId}/RemoveAdmin`, options);
-}
+};
 
-export const blockUser = async (userId) =>{
+export const blockUser = async (userId) => {
   const options = {
     method: "PATCH",
   };
   return await send(`${fridgeApi}/api/users/${userId}/Block`, options);
-}
+};
 
 export const unBlockUser = async (userId) => {
   const options = {
     method: "PATCH",
   };
   return await send(`${fridgeApi}/api/users/${userId}/UnBlock`, options);
+};
+
+export const getUserById = async (userId) =>
+  await send(`${fridgeApi}/api/users/${userId}`);
+
+export const updateUser = async (formData) => {
+  const options = {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  };
+  return await send(`${fridgeApi}/api/users/${formData.id}`, options);
 };
 
 const send = async (uri, fetchRequestOptions) => {
