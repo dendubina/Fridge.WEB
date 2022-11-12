@@ -1,10 +1,12 @@
 import { fridgeApi } from "../../Hosts";
 import { getCookie } from "../../CookieService/CookieService";
 
+const jsonContentType = "application/json";
+
 export const signIn = async (data) => {
   const requestOptions = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(data),
   };
   return await send(`${fridgeApi}/SignIn`, requestOptions);
@@ -13,7 +15,7 @@ export const signIn = async (data) => {
 export const signUp = async (data) => {
   const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(data),
   };
   return await send(`${fridgeApi}/SignUp`, options);
@@ -24,7 +26,7 @@ export const getAllFridges = async () => await send(`${fridgeApi}/api/fridges`);
 export const createFridge = async (data) => {
   const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(data),
   };
   return await send(`${fridgeApi}/api/Fridges`, options);
@@ -43,7 +45,7 @@ export const deleteFridge = async (fridgeId) => {
 export const updateFridge = async (fridge) => {
   const options = {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(fridge),
   };
   return await send(`${fridgeApi}/api/fridges/${fridge.id}`, options);
@@ -62,7 +64,7 @@ export const deleteProductFromFridge = async (fridgeId, productId) => {
 export const addProductInFridge = async (fridgeId, formData) => {
   const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(formData),
   };
   await send(`${fridgeApi}/api/fridges/${fridgeId}/products`, options);
@@ -133,7 +135,7 @@ export const getUserById = async (userId) =>
 export const updateUser = async (formData) => {
   const options = {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(formData),
   };
   return await send(`${fridgeApi}/api/users/${formData.id}`, options);

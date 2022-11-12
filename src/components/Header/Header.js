@@ -29,7 +29,7 @@ export default function Header() {
             <Nav className="me-auto"></Nav>
             <Nav>
               {auth.isAuthed ? (
-                <>
+                <>               
                   {auth.isAdmin && (
                     <Link to="/users" className="btn btn-outline-warning login-button">Admin Panel</Link>                 
                   )}

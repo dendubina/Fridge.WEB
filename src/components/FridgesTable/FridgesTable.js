@@ -23,7 +23,7 @@ export default function FridgesTable() {
       if (response.ok) {
         setFridges(fridges.filter((fridge) => fridge.id !== event.target.name));
       }
-    });    
+    });
   };
 
   const handleEdit = (event) =>
@@ -51,21 +51,11 @@ export default function FridgesTable() {
           <tbody>
             {fridges.map((fridge) => (
               <tr key={fridge.id}>
-                <td>
-                  <span>{fridge.id}</span>
-                </td>
-                <td>
-                  <span>{fridge.name}</span>
-                </td>
-                <td>
-                  <span>{fridge.ownerName}</span>
-                </td>
-                <td>
-                  <span>{fridge.modelName}</span>
-                </td>
-                <td>
-                  <span>{fridge.modelYear}</span>
-                </td>
+                <td>{fridge.id}</td>
+                <td>{fridge.name}</td>
+                <td>{fridge.ownerName}</td>
+                <td>{fridge.modelName}</td>
+                <td>{fridge.modelYear}</td>
                 <td className="text-center">
                   <Button
                     variant="warning"

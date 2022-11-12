@@ -31,7 +31,8 @@ export default function UpdateFridgeForm(props) {
         } else {
           navigate("/fridges");
         }
-      });
+      })
+      .catch(setServerErrors(["Something went wrong, try later"]));
   };
 
   const handleEdit = (event) =>
