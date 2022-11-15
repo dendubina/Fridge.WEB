@@ -1,0 +1,19 @@
+.status-text {
+  font-weight: bold;
+}
+
+.status-active {
+  color: green;
+}
+
+.status-blocked {
+  color: brown;
+}
+
+.buttons-block {
+    margin: 20px 20px;
+}
+
+.user-action-button{
+  margin: 5px;
+}

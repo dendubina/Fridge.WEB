@@ -1,0 +1,1 @@
+export const fridgeApi = "https://localhost:5005"

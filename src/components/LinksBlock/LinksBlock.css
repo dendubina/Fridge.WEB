@@ -1,0 +1,16 @@
+.links-container {
+  margin-top: 20px;
+}
+
+.list-item {
+  border: none;
+  padding: 0;
+}
+
+#list-items {
+  color: #000;
+}
+
+.list-link {
+  width: 100%;
+}
