@@ -9,7 +9,7 @@ export const signIn = async (data) => {
     headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(data),
   };
-  return await send(`${fridgeApi}/SignIn`, requestOptions);
+  return await send(`${fridgeApi}/signIn`, requestOptions);
 };
 
 export const signUp = async (data) => {
@@ -18,7 +18,7 @@ export const signUp = async (data) => {
     headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(data),
   };
-  return await send(`${fridgeApi}/SignUp`, options);
+  return await send(`${fridgeApi}/signUp`, options);
 };
 
 export const getAllFridges = async () => await send(`${fridgeApi}/api/fridges`);
@@ -29,7 +29,7 @@ export const createFridge = async (data) => {
     headers: { "Content-Type": jsonContentType },
     body: JSON.stringify(data),
   };
-  return await send(`${fridgeApi}/api/Fridges`, options);
+  return await send(`${fridgeApi}/api/fridges`, options);
 };
 
 export const getFridgeById = async (fridgeId) =>
@@ -105,28 +105,28 @@ export const addAdmin = async (userId) => {
   const options = {
     method: "PATCH",
   };
-  return await send(`${fridgeApi}/api/users/${userId}/AddAdmin`, options);
+  return await send(`${fridgeApi}/api/users/${userId}/addAdmin`, options);
 };
 
 export const removeAdmin = async (userId) => {
   const options = {
     method: "PATCH",
   };
-  return await send(`${fridgeApi}/api/users/${userId}/RemoveAdmin`, options);
+  return await send(`${fridgeApi}/api/users/${userId}/removeAdmin`, options);
 };
 
 export const blockUser = async (userId) => {
   const options = {
     method: "PATCH",
   };
-  return await send(`${fridgeApi}/api/users/${userId}/Block`, options);
+  return await send(`${fridgeApi}/api/users/${userId}/block`, options);
 };
 
 export const unBlockUser = async (userId) => {
   const options = {
     method: "PATCH",
   };
-  return await send(`${fridgeApi}/api/users/${userId}/UnBlock`, options);
+  return await send(`${fridgeApi}/api/users/${userId}/unBlock`, options);
 };
 
 export const getUserById = async (userId) =>
