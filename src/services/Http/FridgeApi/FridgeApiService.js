@@ -101,32 +101,40 @@ export const updateProduct = async (productId, formData) => {
 
 export const getAllUsers = async () => send(`${fridgeApi}/api/users`);
 
-export const addAdmin = async (userId) => {
+export const addRole = async (userId, roleToAdd) => {
+  const content = {
+    role: roleToAdd
+  }
   const options = {
     method: "PATCH",
+    headers: { "Content-Type": jsonContentType },
+    body: JSON.stringify(content),
   };
-  return await send(`${fridgeApi}/api/users/${userId}/addAdmin`, options);
+  return await send(`${fridgeApi}/api/users/${userId}/addRole`, options);
 };
 
-export const removeAdmin = async (userId) => {
+export const removeRole = async (userId, roleToRemove) => {
+  const content = {
+    role: roleToRemove,
+  };
   const options = {
     method: "PATCH",
+    headers: { "Content-Type": jsonContentType },
+    body: JSON.stringify(content),
   };
-  return await send(`${fridgeApi}/api/users/${userId}/removeAdmin`, options);
+  return await send(`${fridgeApi}/api/users/${userId}/removeRole`, options);
 };
 
-export const blockUser = async (userId) => {
+export const changeStatus = async (userId, newStatus) => {
+  const content = {
+    status: newStatus,
+  };
   const options = {
     method: "PATCH",
+    headers: { "Content-Type": jsonContentType },
+    body: JSON.stringify(content),
   };
-  return await send(`${fridgeApi}/api/users/${userId}/block`, options);
-};
-
-export const unBlockUser = async (userId) => {
-  const options = {
-    method: "PATCH",
-  };
-  return await send(`${fridgeApi}/api/users/${userId}/unBlock`, options);
+  return await send(`${fridgeApi}/api/users/${userId}/changeStatus`, options);
 };
 
 export const getUserById = async (userId) =>

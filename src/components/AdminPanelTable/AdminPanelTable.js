@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  addAdmin,
-  blockUser,
+  addRole,
+  changeStatus,
   getAllUsers,
-  removeAdmin,
-  unBlockUser,
+  removeRole,
 } from "../../services/Http/FridgeApi/FridgeApiService";
 import useAuth from "../../features/Hooks/useAuth";
 import "./AdminPanelTable.css";
@@ -12,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Table, Button, Form } from "react-bootstrap";
 
 export default function AdminPanelTable() {
+  const adminRoleName = "Admin";
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const auth = useAuth();
@@ -36,12 +36,15 @@ export default function AdminPanelTable() {
 
   const handleAddAdminClick = () => {
     if (currentUserId) {
-      addAdmin(currentUserId).then((response) => {
+      addRole(currentUserId, adminRoleName).then((response) => {
         if (response.ok) {
           const newUsers = users.map((user) => {
-            if (user.id === currentUserId && !user.roles.includes("Admin")) {
+            if (
+              user.id === currentUserId &&
+              !user.roles.includes(adminRoleName)
+            ) {
               const newRoles = user.roles;
-              newRoles.push("Admin");
+              newRoles.push(adminRoleName);
               return { ...user, roles: newRoles };
             } else {
               return user;
@@ -58,12 +61,15 @@ export default function AdminPanelTable() {
 
   const handleRemoveAdminClick = () => {
     if (currentUserId) {
-      removeAdmin(currentUserId).then((response) => {
+      removeRole(currentUserId, adminRoleName).then((response) => {
         if (response.ok) {
           const newUsers = users.map((user) => {
-            if (user.id === currentUserId && user.roles.includes("Admin")) {
+            if (
+              user.id === currentUserId &&
+              user.roles.includes(adminRoleName)
+            ) {
               let newRoles = user.roles;
-              newRoles = newRoles.filter((e) => e !== "Admin");
+              newRoles = newRoles.filter((e) => e !== adminRoleName);
               return { ...user, roles: newRoles };
             } else {
               return user;
@@ -80,7 +86,7 @@ export default function AdminPanelTable() {
 
   const handleblockClick = () => {
     if (currentUserId) {
-      blockUser(currentUserId).then((response) => {
+      changeStatus(currentUserId, "Blocked").then((response) => {
         if (response.ok) {
           const newUsers = users.map((user) => {
             if (user.id === currentUserId) {
@@ -100,7 +106,7 @@ export default function AdminPanelTable() {
 
   const handleUnblockClick = () => {
     if (currentUserId) {
-      unBlockUser(currentUserId).then((response) => {
+      changeStatus(currentUserId, "Active").then((response) => {
         if (response.ok) {
           const newUsers = users.map((user) => {
             if (user.id === currentUserId) {
