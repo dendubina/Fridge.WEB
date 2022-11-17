@@ -41,9 +41,9 @@ const Router = () => {
         <Route
           path="/users"
           element={
-            <RequireAdmin>
+            
               <AdminPanel />
-            </RequireAdmin>
+            
           }
         />
         <Route

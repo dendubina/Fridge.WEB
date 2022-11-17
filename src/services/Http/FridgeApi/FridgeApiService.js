@@ -150,8 +150,8 @@ export const updateUser = async (formData) => {
 };
 
 const send = async (uri, fetchRequestOptions) => {
-  const authToken = "Bearer " + getCookie("jwttoken");
-
+  const authToken = "Bearer " + getCookie("accessToken");
+   
   if (!fetchRequestOptions) {
     fetchRequestOptions = {
       headers: {

@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors";
 import { signIn } from "../../services/Http/FridgeApi/FridgeApiService";
 import useAuth from "../../features/Hooks/useAuth";
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "../../services/AuthConfig";
 
 export default function SignInForm() {
   const [serverErrors, setServerError] = useState([]);
@@ -16,6 +18,7 @@ export default function SignInForm() {
     formState: { errors },
   } = useForm();
   const auth = useAuth();
+  const { instance } = useMsal();
 
   const onSubmit = (formData) => {
     signIn(formData)
@@ -33,6 +36,9 @@ export default function SignInForm() {
         setServerError(["Something went wrong, try later"]);
       });
   };
+
+  const handleMicrosoftLogin = () =>
+    instance.loginRedirect(loginRequest).catch((e) => console.error(e));
 
   return (
     <div className="text-center">
@@ -77,6 +83,16 @@ export default function SignInForm() {
           Sign In
         </Button>
       </Form>
+
+      <div className="azure-ad-button-block">
+        <Button
+          type="submit"
+          variant="outline-primary"
+          size="lg"
+          onClick={handleMicrosoftLogin}>
+          Sign in with Microsoft
+        </Button>
+      </div>
     </div>
   );
 }
