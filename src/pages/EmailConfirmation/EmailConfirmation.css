@@ -1,0 +1,9 @@
+.result-block {
+  display: inline-block;
+  margin: 20px;
+  font-style: italic;
+}
+
+.seconds-span {
+  font-weight: bold;
+}

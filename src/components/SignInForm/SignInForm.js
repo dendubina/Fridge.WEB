@@ -10,6 +10,7 @@ import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../../services/AuthConfig";
 
 export default function SignInForm() {
+  const [isLoaded, setIsLoaded] = useState(true);
   const [serverErrors, setServerError] = useState([]);
   const navigate = useNavigate();
   const {
@@ -21,6 +22,7 @@ export default function SignInForm() {
   const { instance } = useMsal();
 
   const onSubmit = (formData) => {
+    setIsLoaded(false);
     signIn(formData)
       .then((response) => response.json())
       .then((result) => {
@@ -34,6 +36,9 @@ export default function SignInForm() {
       .catch((error) => {
         console.error(error);
         setServerError(["Something went wrong, try later"]);
+      })
+      .finally(() => {
+        setIsLoaded(true);
       });
   };
 
@@ -67,9 +72,16 @@ export default function SignInForm() {
 
         <Form.Control
           type="text"
-          className={errors.userName ? "is-invalid" : ""}
-          placeholder="User name"
-          {...register("userName", { required: true })}
+          className={errors.email ? "is-invalid" : ""}
+          placeholder="Email"
+          {...register("email", {
+            required: true,
+            pattern: {
+              value:
+                /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+              message: "Not valid email",
+            },
+          })}
         />
 
         <Form.Control
@@ -80,7 +92,10 @@ export default function SignInForm() {
         />
 
         <Button type="submit" variant="primary" size="lg">
-          Sign In
+          Sign In{" "}
+          {!isLoaded && (
+            <span className="spinner-border spinner-border-sm"></span>
+          )}
         </Button>
       </Form>
 

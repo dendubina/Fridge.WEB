@@ -7,6 +7,7 @@ import { GetServerErrors } from "../../services/GetServerErrors/GetServerErrors"
 import { useNavigate } from "react-router-dom";
 
 export default function SignUpForm() {
+  const [isLoaded, setIsLoaded] = useState(true);
   const [serverErrors, setServerError] = useState([]);
   const navigate = useNavigate();
   const {
@@ -17,6 +18,7 @@ export default function SignUpForm() {
   } = useForm();
 
   const onSubmit = (formData) => {
+    setIsLoaded(false);
     signUp(formData)
       .then((response) => response.json())
       .then((result) => {
@@ -29,6 +31,9 @@ export default function SignUpForm() {
       .catch((error) => {
         console.error(error);
         setServerError(["Something went wrong, try later"]);
+      })
+      .finally(() => {
+        setIsLoaded(true);
       });
   };
 
@@ -102,7 +107,10 @@ export default function SignUpForm() {
         />
 
         <Button type="submit" variant="primary" size="lg">
-          Sign Up
+          Sign Up{" "}
+          {!isLoaded && (
+            <span className="spinner-border spinner-border-sm"></span>
+          )}
         </Button>
       </Form>
     </div>
