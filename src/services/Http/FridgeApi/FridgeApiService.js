@@ -21,6 +21,16 @@ export const signUp = async (data) => {
   return await send(`${fridgeApi}/signUp`, options);
 };
 
+export const confirmEmail = async (data) =>{
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": jsonContentType },
+    body: JSON.stringify(data),
+  };
+
+  return await send(`${fridgeApi}/confirmEmail`, options);
+}
+
 export const getAllFridges = async () => await send(`${fridgeApi}/api/fridges`);
 
 export const createFridge = async (data) => {
@@ -150,8 +160,8 @@ export const updateUser = async (formData) => {
 };
 
 const send = async (uri, fetchRequestOptions) => {
-  const authToken = "Bearer " + getCookie("jwttoken");
-
+  const authToken = "Bearer " + getCookie("accessToken");
+   
   if (!fetchRequestOptions) {
     fetchRequestOptions = {
       headers: {

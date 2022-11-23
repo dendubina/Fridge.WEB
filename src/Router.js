@@ -14,6 +14,7 @@ import EditProduct from "./pages/Products/EditProduct/EditProduct";
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 import RequireAdmin from "./components/RequireAuthComponents/RequireAdmin";
 import UpdateUser from "./pages/UpdateUser/UpdateUser";
+import EmailConfirmation from "./pages/EmailConfirmation/EmailConfirmation";
 
 const Router = () => {
   const auth = useAuth();
@@ -22,30 +23,42 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route path="/SignIn" element={<SignIn />} />
+
         <Route path="/SignUp" element={<SignUp />} />
+
         <Route path="/Fridges" element={<FridgesList />} />
+
         <Route path="/Fridges/Create" element={<CreateFridge />} />
+
         <Route path="/Fridges/Update/:fridgeId" element={<UpdateFridge />} />
+
         <Route
           path="/Fridges/:fridgeId/products/:productId"
           element={<UpdateProductInFridge />}
         />
+
         <Route
           path="/Fridges/:fridgeId/AddProduct"
           element={<AddProductInFridge />}
         />
+
         <Route path="/Products" element={<ProductsList />} />
+
         <Route path="/Products/Create" element={<AddProduct />} />
+
         <Route path="/Products/Edit/:productId" element={<EditProduct />} />
+
         <Route
           path="/users"
           element={
-            <RequireAdmin>
+            
               <AdminPanel />
-            </RequireAdmin>
+            
           }
         />
+
         <Route
           path="/users/:userId/Edit"
           element={
@@ -53,6 +66,11 @@ const Router = () => {
               <UpdateUser />
             </RequireAdmin>
           }
+        />
+
+        <Route
+          path="/users/:userId/emailConfirmation"
+          element={<EmailConfirmation />}
         />
       </Routes>
     </BrowserRouter>

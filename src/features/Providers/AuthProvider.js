@@ -5,34 +5,53 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContext";
 import jwtDecode from "jwt-decode";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { loginRequest } from "../../services/AuthConfig";
 
 function AuthProvider(props) {
   const [isAuthed, setAuthed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userData, setUserData] = useState(null);
+  const isMicrosoftAuth = useIsAuthenticated();
+  const { instance, accounts } = useMsal();
 
   const logOut = useCallback(() => {
-    setCookie("jwttoken", "", { "max-age": -1 });
+    if (isMicrosoftAuth) {
+      instance.logoutRedirect({ postLogoutRedirectUri: "/" });
+    }
+
+    setCookie("accessToken", "", { "max-age": -1 });
     setAuthed(false);
     setIsAdmin(false);
     setUserData(null);
-  }, []);
+  }, [isMicrosoftAuth]);
 
   const loadData = useCallback(() => {
-    const token = getCookie("jwttoken");
-
-    if (token === null) {
-      setAuthed(false);
+    if (isMicrosoftAuth) {
+      instance
+        .acquireTokenSilent({
+          ...loginRequest,
+          account: accounts[0],
+        })
+        .then((response) => {
+          setCookie("accessToken", response.accessToken);
+        });
+      setAuthed(true);
     } else {
-      setData(token);
+      const token = getCookie("accessToken");
+      if (token === null) {
+        setAuthed(false);
+      } else {
+        setData(token);
+      }
     }
     setIsLoaded(true);
-  }, []);
+  }, [isMicrosoftAuth]);
 
   const logIn = useCallback(
     (data) => {
-      setCookie("jwttoken", data.jwtToken);
+      setCookie("accessToken", data.jwtToken);
       loadData();
     },
     [loadData]

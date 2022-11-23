@@ -89,16 +89,7 @@ export default function CreateFridgeForm() {
                   className={errors.name ? "is-invalid" : ""}
                   {...register("name", { required: true })}
                 />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Owner Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  className={errors.ownerName ? "is-invalid" : ""}
-                  {...register("ownerName", { required: true })}
-                />
-              </Form.Group>
+              </Form.Group>              
 
               <Form.Group className="mb-3">
                 <Form.Label>Model Name</Form.Label>
