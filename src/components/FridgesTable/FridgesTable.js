@@ -53,7 +53,7 @@ export default function FridgesTable() {
               <tr key={fridge.id}>
                 <td>{fridge.id}</td>
                 <td>{fridge.name}</td>
-                <td>{fridge.ownerName}</td>
+                <td>{fridge.owner.userName}</td>
                 <td>{fridge.modelName}</td>
                 <td>{fridge.modelYear}</td>
                 <td className="text-center">

@@ -7,6 +7,6 @@ export default function UpdateUser() {
 
     return <>
         <Header />
-        <UpdateUserForm userId = {params.userId}/>
+        <UpdateUserForm userId = {params.userId} redirectUrl="/users"/>
     </>
 }

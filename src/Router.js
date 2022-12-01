@@ -15,6 +15,8 @@ import AdminPanel from "./pages/AdminPanel/AdminPanel";
 import RequireAdmin from "./components/RequireAuthComponents/RequireAdmin";
 import UpdateUser from "./pages/UpdateUser/UpdateUser";
 import EmailConfirmation from "./pages/EmailConfirmation/EmailConfirmation";
+import UserProfile from "./pages/UserProfile/UserProfile";
+import RequireAuth from "./components/RequireAuthComponents/RequireAuth";
 
 const Router = () => {
   const auth = useAuth();
@@ -53,9 +55,9 @@ const Router = () => {
         <Route
           path="/users"
           element={
-            
+            <RequireAdmin>
               <AdminPanel />
-            
+            </RequireAdmin>
           }
         />
 
@@ -71,6 +73,15 @@ const Router = () => {
         <Route
           path="/users/:userId/emailConfirmation"
           element={<EmailConfirmation />}
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <UserProfile />
+            </RequireAuth>
+          }
         />
       </Routes>
     </BrowserRouter>

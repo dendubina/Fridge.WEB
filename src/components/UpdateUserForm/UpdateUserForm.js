@@ -38,12 +38,13 @@ export default function UpdateUserForm(props) {
       id: user.id,
       userName: formData.userName,
       email: formData.email,
-    };
+      mailingConfirmed: formData.mailingConfirmed,
+    };    
 
     updateUser(data)
       .then((response) => {
         if (response.ok) {
-          navigate("/users");
+          navigate(props.redirectUrl);
         }
 
         switch (response.status) {
@@ -107,6 +108,16 @@ export default function UpdateUserForm(props) {
                         message: "Not valid email",
                       },
                     })}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Mailing Confirmed</Form.Label>
+                  <input
+                    className="form-check-input form-checkbox"
+                    type="checkbox"
+                    defaultChecked={user.mailingConfirmed}
+                    {...register("mailingConfirmed")}                    
                   />
                 </Form.Group>
 

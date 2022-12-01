@@ -29,10 +29,23 @@ export default function Header() {
             <Nav className="me-auto"></Nav>
             <Nav>
               {auth.isAuthed ? (
-                <>               
+                <>
                   {auth.isAdmin && (
-                    <Link to="/users" className="btn btn-outline-warning login-button">Admin Panel</Link>                 
+                    <Link
+                      to="/users"
+                      className="btn btn-outline-warning login-button">
+                      Admin Panel
+                    </Link>
                   )}
+
+                  {auth.isFridgeAuth && (
+                    <Link
+                      to="/profile"
+                      className="btn btn-outline-warning login-button">
+                      Profile
+                    </Link>
+                  )}
+
                   <Button
                     variant="outline-primary"
                     type="button"

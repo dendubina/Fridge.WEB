@@ -13,6 +13,7 @@ function AuthProvider(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [isFridgeAuth, setIsFridgeAuth] = useState(false);
   const isMicrosoftAuth = useIsAuthenticated();
   const { instance, accounts } = useMsal();
 
@@ -25,7 +26,7 @@ function AuthProvider(props) {
     setAuthed(false);
     setIsAdmin(false);
     setUserData(null);
-  }, [isMicrosoftAuth]);
+  }, [isMicrosoftAuth, instance]);
 
   const loadData = useCallback(() => {
     if (isMicrosoftAuth) {
@@ -47,7 +48,7 @@ function AuthProvider(props) {
       }
     }
     setIsLoaded(true);
-  }, [isMicrosoftAuth]);
+  }, [isMicrosoftAuth, accounts, instance]);
 
   const logIn = useCallback(
     (data) => {
@@ -62,6 +63,7 @@ function AuthProvider(props) {
   }, [loadData]);
 
   const setData = (token) => {
+    setIsFridgeAuth(true);
     setAuthed(true);
     const decoded = jwtDecode(token);
     setUserData(decoded);
@@ -77,10 +79,11 @@ function AuthProvider(props) {
       isAuthed,
       userData,
       isAdmin,
+      isFridgeAuth,
       logIn,
       logOut,
     }),
-    [userData, isAuthed, isLoaded, isAdmin, logIn, logOut]
+    [userData, isAuthed, isLoaded, isAdmin, logIn, logOut, isFridgeAuth]
   );
 
   return (
