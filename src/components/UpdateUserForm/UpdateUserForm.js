@@ -39,22 +39,22 @@ export default function UpdateUserForm(props) {
       userName: formData.userName,
       email: formData.email,
       mailingConfirmed: formData.mailingConfirmed,
-    };    
+    };
 
     updateUser(data)
       .then((response) => {
-        if (response.ok) {
-          navigate(props.redirectUrl);
-        }
-
-        switch (response.status) {
-          case 401:
-            handleError();
-            break;
-          case 400:
-            return response.json();
-          default:
-            setServerErrors(["Something went wrong"]);
+        if (!response.ok) {
+          switch (response.status) {
+            case 401:
+              handleError();
+              break;
+            case 400:
+              return response.json();
+            default:
+              setServerErrors(["Something went wrong"]);
+          }
+        } else {
+          navigate(props.redirectUrl, { replace: true });
         }
       })
       .then((result) => {
@@ -117,7 +117,7 @@ export default function UpdateUserForm(props) {
                     className="form-check-input form-checkbox"
                     type="checkbox"
                     defaultChecked={user.mailingConfirmed}
-                    {...register("mailingConfirmed")}                    
+                    {...register("mailingConfirmed")}
                   />
                 </Form.Group>
 
